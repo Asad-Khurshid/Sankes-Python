@@ -5,6 +5,16 @@ import random
 
 size = 10
 
+class SoundEffect:
+    def __init__(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load("woosh.wav")
+
+    def play(self):
+        pygame.mixer.music.set_volume(0.7)
+        pygame.mixer.music.play()
+        
+
 class Food:
     def __init__(self, parent_screen):
         self.food = pygame.image.load("Untitled.png")
@@ -77,6 +87,7 @@ class Game:
         self.snake.draw()
         self.food = Food(self.dis)
         self.food.drawfood()
+        self.sound = SoundEffect()
 
     def expansion(self, x1, y1, x2, y2):
         if x1 >= x2 and x1 < x2 + size:
@@ -104,6 +115,7 @@ class Game:
             if self.expansion(self.snake.x[0], self.snake.y[0], self.food.x, self.food.y):
                 self.food.move()
                 self.snake.increaseLength()
+                self.sound.play()
             for i in range(2, self.snake.length):
                 if self.expansion(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i],):
                     game_over = True
